@@ -15,8 +15,8 @@
 inline void __safeCall(cudaError err, const char *file, const int line)
 {
   if (cudaSuccess != err) {
-    fprintf(stderr, "safeCall() Runtime API error in file <%s>, line %i : %s.\n", file, line, cudaGetErrorString(err));
-    exit(-1);
+    //fprintf(stderr, "safeCall() Runtime API error in file <%s>, line %i : %s.\n", file, line, cudaGetErrorString(err));
+    throw std::runtime_error(cudaGetErrorString(err));
   }
 }
 
@@ -24,8 +24,8 @@ inline void __safeThreadSync(const char *file, const int line)
 {
   cudaError err = cudaDeviceSynchronize();
   if (cudaSuccess != err) {
-    fprintf(stderr, "threadSynchronize() Driver API error in file '%s' in line %i : %s.\n", file, line, cudaGetErrorString(err));
-    exit(-1);
+    //fprintf(stderr, "threadSynchronize() Driver API error in file '%s' in line %i : %s.\n", file, line, cudaGetErrorString(err));
+    throw std::runtime_error(cudaGetErrorString(err));
   }
 }
 
@@ -33,8 +33,8 @@ inline void __checkMsg(const char *errorMessage, const char *file, const int lin
 {
   cudaError_t err = cudaGetLastError();
   if (cudaSuccess != err) {
-    fprintf(stderr, "checkMsg() CUDA error: %s in file <%s>, line %i : %s.\n", errorMessage, file, line, cudaGetErrorString(err));
-    exit(-1);
+    //fprintf(stderr, "checkMsg() CUDA error: %s in file <%s>, line %i : %s.\n", errorMessage, file, line, cudaGetErrorString(err));
+    throw std::runtime_error(cudaGetErrorString(err));
   }
 }
 
